@@ -1,8 +1,8 @@
 use std::fs::File;
-use std::io::{prelude::*, Split};
+use std::io::{prelude::*};
 
-static MAX_ITEM_NAME_LENGTH: u32 = 20;
-static MAX_CREDENTIAL_LENGTH: u32 = 20;
+pub const MAX_ITEM_NAME_LENGTH: u32 = 20;
+pub const MAX_CREDENTIAL_LENGTH: u32 = 20;
 
 struct MenuItem {
     name: String,
@@ -10,7 +10,7 @@ struct MenuItem {
     quantity: i32,
 }
 
-fn make_user(username : String, password : String) -> std::io::Result<()>
+fn make_user(username : &str, password : &str) -> std::io::Result<()>
 {
     let max_cred_length : usize = MAX_CREDENTIAL_LENGTH as usize;
     
@@ -30,7 +30,7 @@ fn make_user(username : String, password : String) -> std::io::Result<()>
     Ok(())
 }
 
-fn credentials_exist(username : String, password : String) -> std::io::Result<()>
+fn credentials_exist(username : &str, password : &str) -> std::io::Result<()>
 {
     let file_name: String = format!("{}.txt", username);
     let mut file: File = File::open(file_name)?;
@@ -60,8 +60,28 @@ fn get_menu() -> std::io::Result<()>
     Ok(())
 }
 
+fn add_to_menu(item_name: &str, item_price: i32, item_quantity: i32) -> std::io::Result<()>
+{
+    let file_name: String = String::from("menu.txt");
+    let mut file: File = File::options().read(true).write(true).open(file_name)?;
+
+    let mut previous_menu: String = String::new();
+    file.read_to_string(&mut previous_menu)?;
+
+    let menu_content: String = format!("{}\n{}\t{}\t{}", previous_menu, item_name, item_price, item_quantity);
+    file.write_all(menu_content.as_bytes())?;
+    
+    println!("Current menu:");
+    println!("Item\tPrice\tQuantity");
+    println!("{}", menu_content);
+
+    Ok(())
+} 
+
 fn main() {
-    // make_user(String::from(""), String::from(""));
-    // credentials_exist(String::from("foo"), String::from("1"));
-    get_menu();
+    // make_user("Hello", "World");             PASSED | TODO : Add match case for 'error handling' 
+    // credentials_exist("foo", "1");           PASSED | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    // get_menu();                              PASSED | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    //add_to_menu("Test", 10, 10).expect("Ok"); PASSED | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    
 }
