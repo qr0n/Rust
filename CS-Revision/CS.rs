@@ -1,14 +1,8 @@
 use std::fs::File;
-use std::io::{prelude::*};
+use std::io::prelude::*;
 
 pub const MAX_ITEM_NAME_LENGTH: u32 = 20;
 pub const MAX_CREDENTIAL_LENGTH: u32 = 20;
-
-struct MenuItem {
-    name: String,
-    price: i32,
-    quantity: i32,
-}
 
 fn make_user(username : &str, password : &str) -> std::io::Result<()>
 {
@@ -36,7 +30,7 @@ fn credentials_exist(username : &str, password : &str) -> std::io::Result<()>
     let mut file: File = File::open(file_name)?;
     let mut file_content: String = String::new();
 
-    file.read_to_string(&mut file_content);
+    file.read_to_string(&mut file_content)?;
 
     let credential_content: String = format!("{}\n{}", username, password); 
 
@@ -52,7 +46,7 @@ fn get_menu() -> std::io::Result<()>
     let mut file: File = File::open(file_name)?;
     let mut file_content: String = String::new();
 
-    file.read_to_string(&mut file_content);
+    file.read_to_string(&mut file_content)?;
 
     println!("Item\tPrice\tQuantity");
     println!("{}", file_content);
@@ -64,6 +58,7 @@ fn add_to_menu(item_name: &str, item_price: i32, item_quantity: i32) -> std::io:
 {
     let file_name: String = String::from("menu.txt");
     let mut file: File = File::options().read(true).write(true).open(file_name)?;
+    
 
     let mut previous_menu: String = String::new();
     file.read_to_string(&mut previous_menu)?;
@@ -76,12 +71,17 @@ fn add_to_menu(item_name: &str, item_price: i32, item_quantity: i32) -> std::io:
     println!("{}", menu_content);
 
     Ok(())
-} 
+}
+
+fn sell_item(item_name: &str, item_quantity: i32)
+{
+    
+}
 
 fn main() {
     // make_user("Hello", "World");             PASSED | TODO : Add match case for 'error handling' 
     // credentials_exist("foo", "1");           PASSED | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     // get_menu();                              PASSED | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     //add_to_menu("Test", 10, 10).expect("Ok"); PASSED | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    
+
 }

@@ -1,5 +1,5 @@
-D:\Rust\target\debug\deps\test.exe: CS.rs
+D:\Rust\target\debug\deps\test.exe: test.rs
 
-D:\Rust\target\debug\deps\test.d: CS.rs
+D:\Rust\target\debug\deps\test.d: test.rs
 
-CS.rs:
+test.rs:

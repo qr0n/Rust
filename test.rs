@@ -1,19 +1,18 @@
-use::std::io;
 
-struct MenuItem {
-    name : String,
-    price : i32,
+
+fn seggs(thing: Option<&str>) -> i32 {
+    if thing.is_none() {
+        println!("No thing given no seggs");
+        return 1;
+    }
+    else {
+        println!("thing is {}", thing.unwrap());
+        return 0;
+    }
+
 }
 
-struct TupleStruct(String, i32);
-
 fn main() {
-    let _test: MenuItem = MenuItem {
-        name : String::from("hello world"),
-        price : 100
-    };
-    println!("{}", _test.name);
-    println!("{}", _test.price);
-
-    let _test2: TupleStruct = TupleStruct(String::from("hello world"), 100);
+    seggs(None);
+    seggs(Some("hello!!"));
 }
